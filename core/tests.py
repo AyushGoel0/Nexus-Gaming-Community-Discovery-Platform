@@ -1,4 +1,6 @@
+from datetime import date
 from django.test import TestCase
+from .models import Game
 
 # Create your tests here.
 
@@ -14,3 +16,22 @@ class CoreViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
+
+class GameModelTests(TestCase):
+    def test_game_string_representation(self):
+        game = Game.objects.create(
+            title="Hades",
+            description="A roguelike action game.",
+            release_date=date(2020, 9, 17),
+        )
+
+        self.assertEqual(str(game), "Hades")
+
+    def test_games_are_ordered_by_title(self):
+        Game.objects.create(title="Zelda")
+        Game.objects.create(title="Apex Legends")
+
+        self.assertEqual(
+            list(Game.objects.values_list("title", flat=True)),
+            ["Apex Legends", "Zelda"],
+        )
