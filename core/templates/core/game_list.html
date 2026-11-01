@@ -1,30 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Nexus Games</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Game Catalog</h1>
 
     {% if games %}
-        <ul>
-            {% for game in games %}
-                <li>
-                    <h2>{{ game.title }}</h2>
+    <ul>
+      {% for game in games %}
+      <li>
+        <h2>{{ game.title }}</h2>
 
-                    {% if game.description %}
-                        <p>{{ game.description }}</p>
-                    {% endif %}
+        {% if game.description %}
+        <p>{{ game.description }}</p>
+        {% endif %}
 
-                    {% if game.release_date %}
-                        <p>Released: {{ game.release_date }}</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        {% if game.release_date %}
+        <p>Released: {{ game.release_date }}</p>
+        {% endif %}
+
+        {% if game.genres.all %}
+        <p>
+          Genres:
+          {% for genre in game.genres.all %}
+            {{ genre.name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
     {% else %}
-        <p>No games available yet.</p>
+    <p>No games available yet.</p>
     {% endif %}
-</body>
+  </body>
 </html>

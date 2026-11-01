@@ -1,6 +1,6 @@
 from datetime import date
 from django.test import TestCase
-from .models import Game
+from .models import Game, Genre
 
 # Create your tests here.
 
@@ -38,15 +38,18 @@ class GameModelTests(TestCase):
 
 class GameListViewTests(TestCase):
     def test_game_list_displays_games(self):
-        Game.objects.create(
+        game = Game.objects.create(
             title="Hades",
             description="A roguelike action game.",
         )
+        genre = Genre.objects.create(name="Roguelike")
+        game.genres.add(genre)
 
         response = self.client.get("/games/")
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Hades")
+        self.assertContains(response, "Roguelike")
         self.assertTemplateUsed(response, "core/game_list.html")
 
     def test_game_list_displays_empty_state(self):
@@ -54,3 +57,26 @@ class GameListViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No games available yet.")
+
+class GenreModelTests(TestCase):
+    def test_genre_string_representation(self):
+        genre = Genre.objects.create(name="RPG")
+
+        self.assertEqual(str(genre), "RPG")
+
+    def test_genre_names_are_unique(self):
+        Genre.objects.create(name="RPG")
+
+        with self.assertRaises(Exception):
+            Genre.objects.create(name="RPG")
+
+    def test_game_can_have_multiple_genres(self):
+        game = Game.objects.create(title="Hades")
+        action = Genre.objects.create(name="Action")
+        roguelike = Genre.objects.create(name="Roguelike")
+
+        game.genres.add(action, roguelike)
+
+        self.assertEqual(game.genres.count(), 2)
+        self.assertEqual(action.games.count(), 1)
+        self.assertEqual(roguelike.games.count(), 1)
