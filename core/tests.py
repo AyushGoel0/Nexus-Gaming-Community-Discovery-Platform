@@ -9,7 +9,8 @@ class CoreViewsTests(TestCase):
         response = self.client.get("/")
         
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Welcome to Nexus")
+        self.assertContains(response, "Find your next game and your next community.")
+        self.assertTemplateUsed(response, "core/index.html")
 
     def test_health_check(self):
         response = self.client.get("/health/")

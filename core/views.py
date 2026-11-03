@@ -6,8 +6,7 @@ from .models import Game
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    
-    return HttpResponse("Welcome to Nexus")
+    return render(request, "core/index.html")
 
 
 def health_check(request: HttpRequest) -> JsonResponse:

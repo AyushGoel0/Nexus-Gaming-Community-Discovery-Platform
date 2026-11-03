@@ -12,7 +12,7 @@ foundation rather than replace it.
 
 ## Current status
 
-**Django foundation in progress (Weeks 1–2)**
+**Django MVP in progress (Weeks 1–3)**
 
 - The Django project, local SQLite database, migrations, and development server
   work.
@@ -21,16 +21,15 @@ foundation rather than replace it.
 - `Game` and `Genre` models are implemented.
 - Games and genres are manageable through Django admin.
 - The game catalogue is available at `/games/`.
-- A basic home endpoint is available at `/`.
+- A styled home page endpoint is available at `/`.
 - A health endpoint returns `{"status": "ok"}` at `/health/`.
-- Automated model and view tests currently pass (`10` tests).
+- Automated model, view, and account tests currently pass (`15` tests).
 - The local development database currently contains the sample data shown in
   the project screenshots: one user, four games, and seven genres. This data is
   local state, not a seed-data mechanism.
 
 **Not implemented yet**
 
-- Public registration, login/logout pages, and profile viewing/editing
 - User preferences, avatars, and user-to-game relationships
 - `Community`, membership, ownership, and moderation relationships
 - Posts, comments, reviews, likes, bookmarks, follows, and notifications
@@ -40,24 +39,24 @@ foundation rather than replace it.
 - React frontend
 - Recommendation/ML and RAG functionality
 
-The screenshots show the expected current state: the custom user, games, and
-genres are visible in Django admin, while `/games/` is still a plain HTML
-prototype and `/` is still a placeholder. The PDF's Week 2 target also calls
-for `Community` and `Post` models; those are the next data-model gap.
+The screenshots show the earlier foundation state in Django admin and the
+catalogue. The public home, account, profile, and catalogue pages now share a
+responsive project-level layout and stylesheet. Registration, login/logout,
+and the authenticated profile page are implemented under `/accounts/`. The
+PDF's next data-model gap is `Community` and `Post`.
 
 ## What should happen next
 
 The next milestone is the **Nexus Django MVP**, not DRF or React:
 
-1. Add authentication URLs, templates, forms, profile pages, and tests.
-2. Add `Community`, membership, ownership, and moderation models with admin
+1. Add `Community`, membership, ownership, and moderation models with admin
    support and migrations.
-3. Add game detail pages, community pages, posts, comments, and access rules.
-4. Add likes/bookmarks and the first useful discovery filters.
-5. Add permission and edge-case tests for every completed feature.
-6. Mark the Django MVP complete only when a user can register, manage a
+2. Add game detail pages, community pages, posts, comments, and access rules.
+3. Add game search, genre filters, and server-rendered pagination.
+4. Add likes/bookmarks and permission and edge-case tests.
+5. Mark the Django MVP complete only when a user can register, manage a
    profile, discover a game, and participate in a community.
-7. Start the PDF's Week 6 DRF phase only after that MVP gate passes.
+6. Start the PDF's Week 6 DRF phase only after that MVP gate passes.
 
 Do not start React, Redis, ML, RAG, or production infrastructure yet. The PDF
 places those after the Django MVP, API, testing, and deployment foundations.

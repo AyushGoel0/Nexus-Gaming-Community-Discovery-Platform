@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Nexus | Gaming community{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <p class="eyebrow">Gaming community and discovery</p>
+        <h1>Find your next game and your next community.</h1>
+        <p class="hero-copy">
+            Nexus is growing into a place to discover games, build a profile,
+            and connect with players who share your interests.
+        </p>
+        <div class="hero-actions">
+            <a class="button button-primary" href="{% url 'core:game_list' %}">Explore games</a>
+            {% if not user.is_authenticated %}
+                <a class="button button-secondary" href="{% url 'accounts:register' %}">Create an account</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="feature-grid" aria-label="Nexus features">
+        <article class="feature-card">
+            <span class="feature-icon">01</span>
+            <h2>Discover</h2>
+            <p>Browse the growing game catalogue and explore different genres.</p>
+        </article>
+        <article class="feature-card">
+            <span class="feature-icon">02</span>
+            <h2>Build your profile</h2>
+            <p>Tell the community what you play and what you enjoy.</p>
+        </article>
+        <article class="feature-card">
+            <span class="feature-icon">03</span>
+            <h2>Connect</h2>
+            <p>Communities and discussions are the next step in the Nexus MVP.</p>
+        </article>
+    </section>
+{% endblock %}

@@ -9,28 +9,30 @@ started before the product needs them.
 
 ## Current checkpoint
 
-The repository is between the PDF's Weeks 1 and 2:
+The repository is entering the PDF's Week 4 relationships phase after
+completing the foundation and authentication work:
 
 - project, apps, migrations, and local server work;
 - custom user model and profile fields exist;
 - game and genre models exist;
 - admin management works;
-- the catalogue, health endpoint, and baseline tests work.
+- the catalogue, health endpoint, and baseline tests work;
+- registration, login/logout, profile editing, and account tests work.
 
-The screenshots confirm this checkpoint in Django admin and in the plain
-`/games/` catalogue. They do not demonstrate public authentication, profiles,
-communities, or discussions yet.
+The screenshots confirm the earlier checkpoint in Django admin and in the
+catalogue. The public home, account, profile, and catalogue pages now share a
+project-level layout and stylesheet. Communities and discussions do not exist
+yet.
 
 ## Next implementation slice
 
 Complete the Django MVP in this order:
 
-1. **Authentication and profiles:** registration, login, logout, profile
-   viewing/editing, validation, and tests.
-2. **Core relationships:** user preferences, user-to-game relationships,
+1. **Core relationships:** user preferences, user-to-game relationships,
    `Community`, membership, ownership, and moderation roles.
-3. **MVP pages:** useful home/discovery page, game detail page, community
+2. **MVP pages:** useful home/discovery page, game detail page, community
    detail page, and protected access rules.
+3. **Discovery:** game search, genre filters, and server-rendered pagination.
 4. **Discussions and engagement:** posts, comments, reviews, likes, and
    bookmarks, with tests for permissions and edge cases.
 5. **MVP gate:** a user can register, manage a profile, discover a game, and

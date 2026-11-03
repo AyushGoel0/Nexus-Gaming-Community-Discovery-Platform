@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | Nexus{% endblock %}
+
+{% block content %}
+    <section class="profile-header">
+        <p class="eyebrow">Your Nexus profile</p>
+        <h1>{{ user.display_name|default:user.username }}</h1>
+        <p class="muted">@{{ user.username }}</p>
+    </section>
+    <section class="profile-card">
+        <h2>Edit profile</h2>
+        <form method="post" class="stack-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button button-primary" type="submit">Save changes</button>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Register | Nexus{% endblock %}
+
+{% block content %}
+    <section class="auth-card">
+        <p class="eyebrow">Join the community</p>
+        <h1>Create your Nexus account</h1>
+        <p class="muted">Set up your profile before joining the conversation.</p>
+    <form method="post" class="stack-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button button-primary" type="submit">Register</button>
+    </form>
+        <p class="form-footer"><a href="{% url 'accounts:login' %}">Already have an account?</a></p>
+    </section>
+{% endblock %}

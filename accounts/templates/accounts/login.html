@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Log in | Nexus{% endblock %}
+
+{% block content %}
+    <section class="auth-card">
+        <p class="eyebrow">Welcome back</p>
+        <h1>Log in to Nexus</h1>
+        <p class="muted">Continue discovering games and communities.</p>
+    <form method="post" class="stack-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button button-primary" type="submit">Log in</button>
+    </form>
+        <p class="form-footer"><a href="{% url 'accounts:register' %}">Create an account</a></p>
+    </section>
+{% endblock %}

@@ -1,33 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Nexus Games</title>
-</head>
-<body>
-    <h1>Game Catalog</h1>
+{% extends "base.html" %}
+
+{% block title %}Games | Nexus{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <p class="eyebrow">Explore the catalogue</p>
+        <h1>Game catalog</h1>
+        <p>Discover games currently available in Nexus.</p>
+    </section>
 
     {% if games %}
-        <ul>
+        <ul class="game-grid">
             {% for game in games %}
-                <li>
+                <li class="game-card">
+                    <div class="game-card-topline">
+                        <span class="game-index">{{ forloop.counter|stringformat:"02d" }}</span>
+                        {% if game.release_date %}
+                            <span class="muted">{{ game.release_date|date:"M Y" }}</span>
+                        {% endif %}
+                    </div>
                     <h2>{{ game.title }}</h2>
 
                     {% if game.description %}
-                        <p>{{ game.description }}</p>
+                        <p class="game-description">{{ game.description }}</p>
                     {% endif %}
 
-                    {% if game.release_date %}
-                        <p>Released: {{ game.release_date }}</p>
-                    {% endif %}
-
-                    {% if game.genres.all %}
-                        <p>
-                            Genres:
+                    {% if game.genres.exists %}
+                        <div class="tag-list" aria-label="Genres">
                             {% for genre in game.genres.all %}
-                                {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                                <span class="tag">{{ genre.name }}</span>
                             {% endfor %}
-                        </p>
+                        </div>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -35,5 +38,4 @@
     {% else %}
         <p>No games available yet.</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}
