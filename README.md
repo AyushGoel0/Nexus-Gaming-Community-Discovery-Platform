@@ -1,2 +1,121 @@
-# Nexus-Gaming-Community-Discovery-Platform
-A modern platform where users discover games, create profiles, discuss games, create/join communities, post reviews, follow users, comment, like, bookmark, receive notifications, and eventually get personalized recommendations.
+# Nexus Gaming Community & Discovery Platform
+
+Nexus is the flagship project in the accompanying 52-week learning roadmap. It
+is being built as one continuous product: a Django gaming catalogue that will
+grow into a community platform where users maintain profiles, discover games,
+join communities, discuss games, publish reviews, follow users, and eventually
+receive personalised recommendations.
+
+The PDF roadmap places the ML recommendation system and the separate Django RAG
+platform later in the learning sequence. They should extend a stable Nexus
+foundation rather than replace it.
+
+## Current status
+
+**Django foundation in progress (Weeks 1–2)**
+
+- The Django project, local SQLite database, migrations, and development server
+  work.
+- `core` and `accounts` apps are registered.
+- A custom `accounts.User` model includes `display_name` and `bio`.
+- `Game` and `Genre` models are implemented.
+- Games and genres are manageable through Django admin.
+- The game catalogue is available at `/games/`.
+- A basic home endpoint is available at `/`.
+- A health endpoint returns `{"status": "ok"}` at `/health/`.
+- Automated model and view tests currently pass (`10` tests).
+- The local development database currently contains the sample data shown in
+  the project screenshots: one user, four games, and seven genres. This data is
+  local state, not a seed-data mechanism.
+
+**Not implemented yet**
+
+- Public registration, login/logout pages, and profile viewing/editing
+- User preferences, avatars, and user-to-game relationships
+- `Community`, membership, ownership, and moderation relationships
+- Posts, comments, reviews, likes, bookmarks, follows, and notifications
+- Game detail pages and a real home/discovery experience
+- Search, filtering, pagination, and a REST API
+- PostgreSQL, Redis, Celery, Docker, CI/CD, and deployment
+- React frontend
+- Recommendation/ML and RAG functionality
+
+The screenshots show the expected current state: the custom user, games, and
+genres are visible in Django admin, while `/games/` is still a plain HTML
+prototype and `/` is still a placeholder. The PDF's Week 2 target also calls
+for `Community` and `Post` models; those are the next data-model gap.
+
+## What should happen next
+
+The next milestone is the **Nexus Django MVP**, not DRF or React:
+
+1. Add authentication URLs, templates, forms, profile pages, and tests.
+2. Add `Community`, membership, ownership, and moderation models with admin
+   support and migrations.
+3. Add game detail pages, community pages, posts, comments, and access rules.
+4. Add likes/bookmarks and the first useful discovery filters.
+5. Add permission and edge-case tests for every completed feature.
+6. Mark the Django MVP complete only when a user can register, manage a
+   profile, discover a game, and participate in a community.
+7. Start the PDF's Week 6 DRF phase only after that MVP gate passes.
+
+Do not start React, Redis, ML, RAG, or production infrastructure yet. The PDF
+places those after the Django MVP, API, testing, and deployment foundations.
+
+The dependency-ordered plan is in [ROADMAP.md](./ROADMAP.md).
+
+## Local setup
+
+This repository currently uses Python `3.15.0` in `.venv`, Django `6.1.2`,
+SQLite, and the dependencies listed in [requirements.txt](./requirements.txt).
+The PDF roadmap is a planning input; it is not an implemented feature list.
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python manage.py migrate
+python manage.py check
+python manage.py test
+python manage.py runserver
+```
+
+Open:
+
+- `http://127.0.0.1:8000/`
+- `http://127.0.0.1:8000/games/`
+- `http://127.0.0.1:8000/health/`
+- `http://127.0.0.1:8000/admin/`
+
+Create an administrator for the admin site with:
+
+```powershell
+python manage.py createsuperuser
+```
+
+## Project layout
+
+```text
+config/       Django project settings and URL configuration
+accounts/     Custom user model, admin integration, and migrations
+core/         Game and genre models, views, tests, and templates
+db.sqlite3    Local development database; do not treat it as seed data
+manage.py     Django command-line entry point
+```
+
+## Documentation policy
+
+Keep this README focused on setup, current behavior, and the product overview.
+Use [ROADMAP.md](./ROADMAP.md) for staged implementation work. No additional
+Markdown file is needed at the current foundation stage. Add a document only
+when its corresponding surface exists:
+
+| Document | When to add it |
+| --- | --- |
+| `CONTRIBUTING.md` | When external contributors or pull requests are expected |
+| `docs/API.md` or generated OpenAPI docs | When DRF endpoints are implemented |
+| `docs/ARCHITECTURE.md` | After communities, APIs, and infrastructure stabilize |
+| `SECURITY.md` | Before production deployment or when a security policy is adopted |
+| `CHANGELOG.md` | When versioned releases begin |
+
+Do not add empty placeholder Markdown files for future features. Screenshots
+are useful progress evidence, but they do not require a separate Markdown
+document.
