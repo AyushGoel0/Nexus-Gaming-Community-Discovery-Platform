@@ -23,7 +23,9 @@ foundation rather than replace it.
 - The game catalogue is available at `/games/`.
 - A styled home page endpoint is available at `/`.
 - A health endpoint returns `{"status": "ok"}` at `/health/`.
-- Automated model, view, and account tests currently pass (`15` tests).
+- Automated model, view, and account tests currently pass (`17` tests).
+- GitHub Actions runs the Django system check and test suite on every push and
+  pull request.
 - The local development database currently contains the sample data shown in
   the project screenshots: one user, four games, and seven genres. This data is
   local state, not a seed-data mechanism.
@@ -35,7 +37,7 @@ foundation rather than replace it.
 - Posts, comments, reviews, likes, bookmarks, follows, and notifications
 - Game detail pages and a real home/discovery experience
 - Search, filtering, pagination, and a REST API
-- PostgreSQL, Redis, Celery, Docker, CI/CD, and deployment
+- PostgreSQL, Redis, Celery, Docker, full CI/CD, and deployment
 - React frontend
 - Recommendation/ML and RAG functionality
 
@@ -58,8 +60,10 @@ The next milestone is the **Nexus Django MVP**, not DRF or React:
    profile, discover a game, and participate in a community.
 6. Start the PDF's Week 6 DRF phase only after that MVP gate passes.
 
-Do not start React, Redis, ML, RAG, or production infrastructure yet. The PDF
-places those after the Django MVP, API, testing, and deployment foundations.
+Do not start React, Redis, ML, RAG, Docker, or production infrastructure yet.
+The lightweight test workflow is intentionally in place early; the PDF's full
+Docker/image/deployment pipeline belongs after the Django MVP, API, testing,
+and infrastructure foundations.
 
 The dependency-ordered plan is in [ROADMAP.md](./ROADMAP.md).
 

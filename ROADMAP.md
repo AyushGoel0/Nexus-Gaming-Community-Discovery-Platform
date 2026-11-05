@@ -18,6 +18,8 @@ completing the foundation and authentication work:
 - admin management works;
 - the catalogue, health endpoint, and baseline tests work;
 - registration, login/logout, profile editing, and account tests work.
+- GitHub Actions runs `manage.py check` and the test suite on every push and
+  pull request.
 
 The screenshots confirm the earlier checkpoint in Django admin and in the
 catalogue. The public home, account, profile, and catalogue pages now share a
@@ -40,6 +42,9 @@ Complete the Django MVP in this order:
 
 Do not add DRF until the MVP gate passes. Do not add Redis, Celery, Docker,
 PostgreSQL, React, ML, or RAG merely because they appear later in the PDF.
+The current GitHub Actions workflow is limited to system checks and tests;
+Docker image builds and deployment automation remain deferred until the
+production backend stage.
 
 ## Product stages
 
