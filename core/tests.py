@@ -1,6 +1,9 @@
 from datetime import date
-from django.test import TestCase
-from .models import Game, Genre
+from django.db import IntegrityError
+from django.test import TestCase, TransactionTestCase
+
+from accounts.models import User
+from .models import Community, CommunityMembership, Game, Genre, UserGame
 
 # Create your tests here.
 
@@ -81,3 +84,96 @@ class GenreModelTests(TestCase):
         self.assertEqual(game.genres.count(), 2)
         self.assertEqual(action.games.count(), 1)
         self.assertEqual(roguelike.games.count(), 1)
+
+class CommunityModelTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="owner",
+            password="Strong-pass-123",
+        )
+        self.community = Community.objects.create(
+            name="RPG Players",
+            description="A community for RPG players.",
+            owner=self.user,
+        )
+
+    def test_community_string_representation(self):
+        self.assertEqual(str(self.community), "RPG Players")
+
+    def test_community_owner_relationship(self):
+        self.assertEqual(self.community.owner, self.user)
+        self.assertIn(self.community, self.user.owned_communities.all())
+
+
+class CommunityMembershipTests(TransactionTestCase):
+    def test_user_can_join_community_with_role(self):
+        user = User.objects.create_user(
+            username="player1",
+            password="Strong-pass-123",
+        )
+        community = Community.objects.create(
+            name="Strategy Players",
+            owner=user,
+        )
+
+        membership = CommunityMembership.objects.create(
+            community=community,
+            user=user,
+            role=CommunityMembership.Role.OWNER,
+        )
+
+        self.assertEqual(membership.role, CommunityMembership.Role.OWNER)
+        self.assertEqual(community.memberships.count(), 1)
+
+    def test_duplicate_membership_is_rejected(self):
+        user = User.objects.create_user(
+            username="player1",
+            password="Strong-pass-123",
+        )
+        community = Community.objects.create(
+            name="Strategy Players",
+            owner=user,
+        )
+
+        CommunityMembership.objects.create(
+            community=community,
+            user=user,
+        )
+
+        with self.assertRaises(IntegrityError):
+            CommunityMembership.objects.create(
+                community=community,
+                user=user,
+            )
+
+
+class UserGameTests(TransactionTestCase):
+    def test_user_can_track_game_status_and_favorite(self):
+        user = User.objects.create_user(
+            username="player1",
+            password="Strong-pass-123",
+        )
+        game = Game.objects.create(title="Hades")
+
+        entry = UserGame.objects.create(
+            user=user,
+            game=game,
+            status=UserGame.Status.PLAYING,
+            is_favorite=True,
+        )
+
+        self.assertEqual(entry.status, UserGame.Status.PLAYING)
+        self.assertTrue(entry.is_favorite)
+        self.assertEqual(user.game_library.count(), 1)
+
+    def test_duplicate_user_game_entry_is_rejected(self):
+        user = User.objects.create_user(
+            username="player1",
+            password="Strong-pass-123",
+        )
+        game = Game.objects.create(title="Hades")
+
+        UserGame.objects.create(user=user, game=game)
+
+        with self.assertRaises(IntegrityError):
+            UserGame.objects.create(user=user, game=game)
